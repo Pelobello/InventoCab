@@ -7,6 +7,7 @@ import Trackify.Items.InventoryItem;
 import Trackify.Model.others.ItemDataModels;
 import Trackify.Model.others.ItemLoanModel;
 import Trackify.Popup.Forms.CartForm;
+import Trackify.Popup.Forms.ItemDataForm;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
@@ -161,7 +162,7 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
         
         ResponsiveLayout cartLayout = new ResponsiveLayout(ResponsiveLayout.JustifyContent.FIT_CONTENT, new Dimension(-1,-1),2,2);
         cartLayout.setColumn(1);
-        cartLayout.setSize(new Dimension(316, 131));
+        cartLayout.setSize(new Dimension(282, 131));
         cartPanel.setLayout(cartLayout);
         
         eventSchedDate.setEditor(schedDateBorrow);
@@ -189,6 +190,13 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
         jButton2 = new javax.swing.JButton();
 
         jButton1.setText("Add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        inventoPanel.setBackground(new java.awt.Color(204, 204, 204));
 
         javax.swing.GroupLayout inventoPanelLayout = new javax.swing.GroupLayout(inventoPanel);
         inventoPanel.setLayout(inventoPanelLayout);
@@ -259,19 +267,16 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(orderId, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(orderId, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(schedDateBorrow, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(studentName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lendererName, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
-                                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 35, Short.MAX_VALUE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(schedDateBorrow, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(studentName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lendererName, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -299,7 +304,7 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,8 +332,7 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
     String lenderer = lendererName.getText();
     Date borrowDate = new Date();
     String orderIdValue = orderId.getText();
-    
-  
+ 
     for (ItemDataModels itemData : cartListData) {
      
         ItemLoanModel loan = new ItemLoanModel(orderIdValue, student, lenderer, borrowDate, List.of(itemData));  // Wrap itemData in a list
@@ -350,11 +354,42 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
               System.out.println("Quantity "+itemData.getCartQuantity()); 
           
         }
+         
         System.out.println("------------");
+      
     }
+    borrowedData.clear();
         
     }//GEN-LAST:event_jButton2ActionPerformed
-  
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        addInventoryData();
+    }//GEN-LAST:event_jButton1ActionPerformed
+  private void addInventoryData(){
+      ItemDataForm itemDataForm = new ItemDataForm();
+      Option option = ModalDialog.createOption();
+        option.getLayoutOption()
+                .setLocation(Location.CENTER, Location.CENTER)
+                .setAnimateDistance(0.9f, 0);
+          SimpleModalBorder.Option[] options = new SimpleModalBorder.Option[]{new SimpleModalBorder.Option("Add Item", SimpleModalBorder.YES_OPTION)
+                  ,new SimpleModalBorder.Option("Cancel", SimpleModalBorder.CANCEL_OPTION)};
+        
+      
+          
+          ModalDialog.showModal(this, new SimpleModalBorder(itemDataForm, "Add to Cart",options,
+           (controller, action) -> {
+              
+           }
+          
+          ),option);
+          
+          
+  }
+    
+    
+    
+    
+    
   public void addtoCart(ItemDataModels data){
       CartForm cartForm = new CartForm();
       cartForm.setData(data);

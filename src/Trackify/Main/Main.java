@@ -10,6 +10,7 @@ import Trackify.Event.EventMenuSelected;
 import Trackify.Forms.InventoryData;
 import Trackify.Forms.Form2;
 import Trackify.Model.ModelMenu;
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -148,7 +149,9 @@ public class Main extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        FlatLightLaf.setup();
+       
+        FlatIntelliJLaf.registerCustomDefaultsSource("Trackify/Themes");
+        FlatIntelliJLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Main().setVisible(true);

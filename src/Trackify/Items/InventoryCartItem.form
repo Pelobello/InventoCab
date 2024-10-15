@@ -45,11 +45,11 @@
                               <Component id="itemID" max="32767" attributes="0"/>
                               <Component id="itemTitle" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <Component id="minusBtn" pref="36" max="32767" attributes="0"/>
+                                  <Component id="minusBtn" pref="25" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="fieldQty" pref="104" max="32767" attributes="0"/>
+                                  <Component id="fieldQty" pref="92" max="32767" attributes="0"/>
                                   <EmptySpace min="-2" max="-2" attributes="0"/>
-                                  <Component id="addBtn" pref="36" max="32767" attributes="0"/>
+                                  <Component id="addBtn" pref="25" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
