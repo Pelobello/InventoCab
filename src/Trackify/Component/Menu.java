@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 
 
+
 public class Menu extends javax.swing.JPanel {
  public void setEvent(EventMenuSelected event) {
         this.event = event;
