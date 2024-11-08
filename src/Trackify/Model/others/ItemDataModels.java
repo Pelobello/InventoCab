@@ -7,20 +7,6 @@ import javax.swing.Icon;
 public class ItemDataModels {
 
     /**
-     * @return the cartQuantity
-     */
-    public int getCartQuantity() {
-        return cartQuantity;
-    }
-
-    /**
-     * @param cartQuantity the cartQuantity to set
-     */
-    public void setCartQuantity(int cartQuantity) {
-        this.cartQuantity = cartQuantity;
-    }
-
-    /**
      * @return the itemID
      */
     public String getItemID() {
@@ -107,18 +93,32 @@ public class ItemDataModels {
     /**
      * @return the itemImage
      */
-    public Icon getItemImage() {
+    public FileImageModel getItemImage() {
         return itemImage;
     }
 
     /**
      * @param itemImage the itemImage to set
      */
-    public void setItemImage(Icon itemImage) {
+    public void setItemImage(FileImageModel itemImage) {
         this.itemImage = itemImage;
     }
 
-    public ItemDataModels(String itemID, String title, String location, String category, int quantity, String status, Icon itemImage) {
+    /**
+     * @return the cartQuantity
+     */
+    public int getCartQuantity() {
+        return cartQuantity;
+    }
+
+    /**
+     * @param cartQuantity the cartQuantity to set
+     */
+    public void setCartQuantity(int cartQuantity) {
+        this.cartQuantity = cartQuantity;
+    }
+
+    public ItemDataModels(String itemID, String title, String location, String category, int quantity, String status, FileImageModel itemImage) {
         this.itemID = itemID;
         this.title = title;
         this.location = location;
@@ -126,8 +126,13 @@ public class ItemDataModels {
         this.quantity = quantity;
         this.status = status;
         this.itemImage = itemImage;
+      
+
     }
 
+   
+
+ 
  
     
     public ItemDataModels() {
@@ -138,6 +143,6 @@ public class ItemDataModels {
     private String category;
     private int quantity;
     private String status;
-    private Icon itemImage;
+    private FileImageModel itemImage;
     private int cartQuantity;
 }

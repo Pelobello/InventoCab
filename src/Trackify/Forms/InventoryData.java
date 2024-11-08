@@ -2,8 +2,11 @@
 package Trackify.Forms;
 
 import Trackify.Event.others.EventItem;
+import Trackify.Factory.ItemsData;
+import Trackify.Factory.ItemsFactory;
 import Trackify.Items.InventoryCartItem;
 import Trackify.Items.InventoryItem;
+import Trackify.Model.others.FileImageModel;
 import Trackify.Model.others.ItemDataModels;
 import Trackify.Model.others.ItemLoanModel;
 import Trackify.Popup.Forms.CartForm;
@@ -12,10 +15,14 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.ResponseCache;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.SwingUtilities;
 import raven.datetime.component.date.DatePicker;
@@ -32,10 +39,15 @@ public class InventoryData extends javax.swing.JPanel {
 private List<ItemDataModels>cartListData = new ArrayList<>();
   private EventItem event;
   private EventItem cartEvent;
-    public InventoryData() {
+  private ItemsFactory itemsFactory = new ItemsFactory();
+  private   ItemsData ItemsController = itemsFactory.createItemController();
+    public InventoryData() throws SQLException {
         initComponents();
          init();
+       
         setOpaque(true);
+        
+
         populateItems();
        
     }
@@ -50,6 +62,26 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
             }
 
         });
+        item.getUpdateBtn().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               
+                //UpdateButton
+            }
+        
+        });
+           item.getDeleteBtn().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+               
+                //DeleteButton
+            }
+        
+        });
+        
+        
+        
+        
         item.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -363,9 +395,13 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    try {
         addInventoryData();
+    } catch (SQLException ex) {
+        Logger.getLogger(InventoryData.class.getName()).log(Level.SEVERE, null, ex);
+    }
     }//GEN-LAST:event_jButton1ActionPerformed
-  private void addInventoryData(){
+  private void addInventoryData()throws SQLException{
       ItemDataForm itemDataForm = new ItemDataForm();
       Option option = ModalDialog.createOption();
         option.getLayoutOption()
@@ -373,23 +409,30 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
                 .setAnimateDistance(0.9f, 0);
           SimpleModalBorder.Option[] options = new SimpleModalBorder.Option[]{new SimpleModalBorder.Option("Add Item", SimpleModalBorder.YES_OPTION)
                   ,new SimpleModalBorder.Option("Cancel", SimpleModalBorder.CANCEL_OPTION)};
-        
-      
-          
+  
           ModalDialog.showModal(this, new SimpleModalBorder(itemDataForm, "Add to Cart",options,
            (controller, action) -> {
-              
+               
+               if (action == SimpleModalBorder.YES_OPTION) {
+                
+                   try {
+                       ItemsController.insertItem(itemDataForm.getData());
+                       populateItems();
+                       Toast.show(this, Toast.Type.INFO, "Succesfully Added");
+                   } catch (IOException ex) {
+                       Logger.getLogger(InventoryData.class.getName()).log(Level.SEVERE, null, ex);
+                   } catch (SQLException ex) {
+                       Logger.getLogger(InventoryData.class.getName()).log(Level.SEVERE, null, ex);
+                   }     
+               }
+       
            }
           
           ),option);
           
           
   }
-    
-    
-    
-    
-    
+  
   public void addtoCart(ItemDataModels data){
       CartForm cartForm = new CartForm();
       cartForm.setData(data);
@@ -442,12 +485,17 @@ private List<ItemDataModels>cartListData = new ArrayList<>();
         
     }
     
-    public void populateItems(){
+    public void populateItems() throws SQLException{
         inventoPanel.removeAll();
-        addItemData(new ItemDataModels("536f5", "1k Resistor", "bisag aha", "bisag unsang Category", 69, "Available", new ImageIcon(getClass().getResource("/Trackify/Icons/Admin.png"))));
-        addItemData(new ItemDataModels("536f6", "2k Resistor", "bisag aha", "bisag unsang Category", 69, "Available", new ImageIcon(getClass().getResource("/Trackify/Icons/Admin.png"))));
-        addItemData(new ItemDataModels("536f7", "3k Resistor", "bisag aha", "bisag unsang Category", 69, "Available", new ImageIcon(getClass().getResource("/Trackify/Icons/Admin.png"))));
-        addItemData(new ItemDataModels("536f8", "4k Resistor", "bisag aha", "bisag unsang Category", 69, "Available", new ImageIcon(getClass().getResource("/Trackify/Icons/Admin.png"))));
+        
+        List<ItemDataModels>ItemData = ItemsController.populateData();
+        
+        for (ItemDataModels itemDataModels : ItemData) {
+            addItemData(itemDataModels);
+        }
+        
+
+         
         
         this.setEvent(new EventItem() {
             @Override

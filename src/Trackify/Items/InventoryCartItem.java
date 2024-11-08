@@ -24,7 +24,7 @@ public class InventoryCartItem extends javax.swing.JPanel {
 
     public void setData(ItemDataModels data) {
         this.data = data;
-        itemImage.setImage(data.getItemImage());
+        itemImage.setImage(data.getItemImage().getIcon());
         itemID.setText(data.getItemID());
         itemTitle.setText(data.getTitle());
         String cartQtyStr = Integer.toString(data.getCartQuantity());

@@ -4,6 +4,7 @@
  */
 package Trackify.Popup.Forms;
 
+import Trackify.Model.others.FileImageModel;
 import Trackify.Model.others.ItemDataModels;
 
 /**
@@ -19,7 +20,9 @@ public class CartForm extends javax.swing.JPanel {
         initComponents();
     }
    public ItemDataModels getData() {
-       data.setItemImage(itemImage.getImage());
+       FileImageModel fileImageModel = new FileImageModel(itemImage.getImage());
+       
+       data.setItemImage(fileImageModel);
        data.setTitle(data.getTitle());
        data.setItemID(data.getItemID());
       int fieldqty = Integer.parseInt(fieldQty.getText());
@@ -31,7 +34,7 @@ public class CartForm extends javax.swing.JPanel {
 
     public void setData(ItemDataModels data) {
         this.data = data;
-        itemImage.setImage(data.getItemImage());
+        itemImage.setImage(data.getItemImage().getIcon());
         itemTitle.setText(data.getTitle());
         itemID.setText(data.getItemID());
         itemLocation.setText(data.getLocation());

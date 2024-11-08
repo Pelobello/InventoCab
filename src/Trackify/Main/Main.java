@@ -13,9 +13,13 @@ import Trackify.Model.ModelMenu;
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
@@ -32,12 +36,13 @@ public class Main extends javax.swing.JFrame {
     private Animator animator;
     private boolean menuShow;
    
-    public Main() {
+    public Main() throws SQLException {
         initComponents();
+         setBackground(Color.WHITE);
         init();
     }
 
-   private void init(){
+   private void init() throws SQLException{
        layout = new MigLayout("fill","0[]0[]0","0[fill]0");
        body.setLayout(layout);
        main.setOpaque(false);
@@ -61,7 +66,11 @@ public class Main extends javax.swing.JFrame {
            @Override
            public void selected(int index) {
                if (index==0) {
-                   showForms(new InventoryData());
+                   try {
+                       showForms(new InventoryData());
+                   } catch (SQLException ex) {
+                       Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                   }
                }else if (index==1) {
                     showForms(new Form2());
                }
@@ -154,7 +163,11 @@ public class Main extends javax.swing.JFrame {
         FlatIntelliJLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Main().setVisible(true);
+                try {
+                    new Main().setVisible(true);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
